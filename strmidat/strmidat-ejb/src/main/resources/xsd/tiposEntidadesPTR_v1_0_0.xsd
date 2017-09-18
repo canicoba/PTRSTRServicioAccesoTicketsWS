@@ -1,0 +1,983 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.inditex.com/xsd/tiposEntidadesPTR_v1"
+	targetNamespace="http://www.inditex.com/xsd/tiposEntidadesPTR_v1"
+	elementFormDefault="qualified">
+
+	<xsd:annotation>
+		<xsd:documentation>
+PTR platform basic types
+		
+Version 1.0.0 25-05-2017
+Initial version
+
+Version 1.0.1 25-05-2017
+Types updated: MCCTType, CampaignType
+New types added: SeasonType, MCCType, StockRFIDType
+
+Version 1.0.2 03-08-2017
+New types added: ArticleMC, ArticleMCC, ArticleMCCT
+
+
+</xsd:documentation>
+	</xsd:annotation>
+
+	<!-- SGA Data types start -->
+	<xsd:simpleType name="ModelType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="QualityType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ColorType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SizeType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="00"></xsd:minInclusive>
+			<xsd:maxInclusive value="99"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="MCCTType">
+		<xsd:complexContent>
+			<xsd:extension base="MCCType">
+				<xsd:sequence>
+					<xsd:element name="size" type="SizeType" maxOccurs="1" minOccurs="0"></xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="CampaignSeasonType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="V" />
+			<xsd:enumeration value="I" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="YearType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minExclusive value="1900"></xsd:minExclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="CampaignType">
+		<xsd:sequence>
+			<xsd:element name="campaignSeason" type="CampaignSeasonType" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="year" type="YearType" maxOccurs="1"
+				minOccurs="1"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="ProductType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0"></xsd:minInclusive>
+			<xsd:maxInclusive value="4"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+		
+	<xsd:simpleType name="WarehouseType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="SectionType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0"></xsd:minInclusive>
+			<xsd:maxInclusive value="3"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ArticleType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Tipo de artículo: paquetería (F) o confección (H)
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1" />
+			<xsd:enumeration value="F" />
+			<xsd:enumeration value="H" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="DistributionCenterType">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="BrandType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador de la cadena. Campo id_cadena de la tabla cadena de maestros
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="LabelType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Digitos identificativos de la etiqueta de un bulto.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="TimeStampType">
+		<xsd:annotation>
+			<xsd:documentation>Tipo para fechas. Formato [-]CCYY-MM-DDThh:mm:ss[Z|(+|-)hh:mm]
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="SuperFamilyType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identifies superfamily of box.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ContentStatusType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="OrderType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="asc"></xsd:enumeration>
+			<xsd:enumeration value="desc"></xsd:enumeration>
+		</xsd:restriction>
+    </xsd:simpleType>
+
+ 	<xsd:simpleType name="LocationType">
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- SGA Data types end -->
+
+<!-- 
+	
+	<xsd:simpleType name="EM">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+ 
+	<xsd:simpleType name="PackageLabelType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Tipo de identificador de bulto. Etiqueta de tienda
+				de
+				(16 dígitos), etiqueta de movimiento (22 dígitos), o
+				matrícula.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ShopLabel" />
+			<xsd:enumeration value="MovementLabel" />
+			<xsd:enumeration value="WarehouseLabel" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="SKU">
+		<xsd:sequence>
+			<xsd:element name="ProductType" type="ProductType" />
+			<xsd:element name="Model" type="ModelType" />
+			<xsd:element name="Quality" type="QualityType" />
+			<xsd:element name="Color" type="ColorType" />
+			<xsd:element name="Size" type="SizeType" />
+			<xsd:element name="EM" nillable="true" type="EM" />
+			<xsd:element name="Warehouse" nillable="true"
+				type="WarehouseType" />
+			<xsd:element name="Season" nillable="true" type="SeasonType" />
+			<xsd:element name="Year" nillable="true" type="YearType" />
+			<xsd:element name="unitsPerLot" type="UnitsPerLot" />
+		</xsd:sequence>
+	</xsd:complexType> 
+
+ 	<xsd:simpleType name="GarmentLabel">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				SKU is divided in five groups: - 1 digit for type of
+				product: 0 garment, 1 shoes/accessories, 2 perfumary, 5
+				gift card, etc. - 4 digits for model - 3 digits for
+				quality - 3 digits for colour: 250 whites, etc. - 2
+				digits for size: 01 S, 02 M, 03 L, 04 XL, etc.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:pattern value="[0-9]{13}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="RfidTag">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="32"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="RfidSerialNumber">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" />
+		</xsd:restriction>
+	</xsd:simpleType> 
+
+
+
+	<xsd:simpleType name="Separate">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Store">
+		<xsd:sequence>
+			<xsd:element name="Shop" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedLong">
+						<xsd:minInclusive value="0"></xsd:minInclusive>
+						<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Section" type="SectionType" nillable="true" />
+			<xsd:element name="Separate" type="Separate"
+				nillable="true" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="WorkOrder">
+		<xsd:sequence>
+			<xsd:element name="WorkOrderId" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedInt">
+						<xsd:minInclusive value="1"></xsd:minInclusive>
+						<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Wave" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedInt">
+						<xsd:minInclusive value="1"></xsd:minInclusive>
+						<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="DistributionFlag">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value=" " />
+			<xsd:enumeration value="F" />
+			<xsd:enumeration value="A" />
+			<xsd:enumeration value="R" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="DistributionOrder">
+		<xsd:sequence>
+			<xsd:element name="DistributionOrder" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedInt">
+						<xsd:minInclusive value="1"></xsd:minInclusive>
+						<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DistributionType" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="R" />
+						<xsd:enumeration value="E" />
+						<xsd:enumeration value="C" />
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="WarehouseDistributionOrder">
+		<xsd:sequence>
+			<xsd:element name="DistributionOrder" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedInt">
+						<xsd:minInclusive value="1"></xsd:minInclusive>
+						<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Wave" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedInt">
+						<xsd:minInclusive value="1"></xsd:minInclusive>
+						<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="Quantity">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="UnitsOrLots">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1"></xsd:length>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="UnitsPerLot">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="1"></xsd:minInclusive>
+			<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Sign">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1" />
+			<xsd:enumeration value="0" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Destination">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ContainerId">
+		<xsd:restriction base="xsd:string" />
+	</xsd:simpleType>
+ 
+	<xsd:simpleType name="BultNumber">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="00000"></xsd:minInclusive>
+			<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="BultType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:enumeration value="1" />
+			<xsd:enumeration value="2" />
+			<xsd:enumeration value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Length">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Width">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Height">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="0000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Weight">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="00000"></xsd:minInclusive>
+			<xsd:maxInclusive value="99999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Document">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="0000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="DeliveryNote">
+		<xsd:sequence>
+			<xsd:element name="DeliveryNoteId" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedLong">
+						<xsd:minInclusive value="0000000000"></xsd:minInclusive>
+						<xsd:maxInclusive value="9999999999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="DistributionCenter" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedLong">
+						<xsd:minInclusive value="000000000"></xsd:minInclusive>
+						<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:simpleType name="LicensePlate">
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="0000000000000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999999999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="ShopLabel">
+		<xsd:sequence minOccurs="1" maxOccurs="1">
+			<xsd:element name="Version" nillable="false">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:unsignedShort">
+						<xsd:minExclusive value="1"></xsd:minExclusive>
+						<xsd:maxExclusive value="9"></xsd:maxExclusive>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="Location" type="Location"
+				nillable="false">
+			</xsd:element>
+			<xsd:element name="CartonNumber" type="BultNumber"
+				nillable="false">
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="DeviceId">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType> 
+
+	<xsd:simpleType name="PackingId">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador del packing.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedLong" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="PurchaseOrderId">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador del pedido.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="OrderId">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador del pedido.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedLong" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Carrier">
+		<xsd:annotation>
+			<xsd:documentation>
+				Nombre del transportista.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="CarrierId">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador del transportista
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedLong" />
+	</xsd:simpleType>
+
+	<xsd:simpleType name="TruckLicensePlate">
+		<xsd:annotation>
+			<xsd:documentation>
+				Matrícula del camión para el que se hace la descarga
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="PalletId">
+		<xsd:annotation>
+			<xsd:documentation>Pallet identification</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="30"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+ 	<xsd:simpleType name="LocationType">
+		<xsd:annotation>
+			<xsd:documentation>Type of location.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="DISTRIBUTION CENTER" />
+			<xsd:enumeration value="CONSIGNA" />
+			<xsd:enumeration value="STORE" />
+			<xsd:enumeration value="LOCAL WAREHOUSE" />
+			<xsd:enumeration value="ECOMMERCE WAREHOUSE" />
+			<xsd:enumeration value="PLATFORM" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Version">
+		<xsd:annotation>
+			<xsd:documentation>
+				Message version. Always included in the message. First
+				version is "1.0.0".
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	Identificador del área logística
+	<xsd:simpleType name="LogisticsArea">
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ReturnType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identifies return or damage type.. 5= Devolución, 11=
+				Taras
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:integer">
+			<xsd:enumeration value="5" />
+			<xsd:enumeration value="11" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="PdaGrouperId">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identifies the grouper from PDA that generated the
+				movement
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="0000000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ReturnSubtype">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identifies movement subtype.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="00000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="99999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+
+	<xsd:simpleType name="Guid">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				The representation of a GUID, generally the id of an
+				element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="\{?[a-fA-F0-9]{8}-?[a-fA-F0-9]{4}-?[a-fA-F0-9]{4}-?[a-fA-F0-9]{4}-?[a-fA-F0-9]{12}\}?" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Site">
+		<xsd:attribute name="Type" type="SiteType" use="required" />
+		<xsd:attribute name="Id" type="xsd:token" use="required" />
+	</xsd:complexType>
+
+	<xsd:simpleType name="SiteType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				DC: Ditribution Center GCD: Distribution Center Group
+				PS: Physical Store
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="DC" />
+			<xsd:enumeration value="GCD" />
+			<xsd:enumeration value="PS" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Header">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Common information related to every message. JMS header
+				will include SourceSystem that indicates system that
+				creates de deliveryID AppId represents system that send
+				the messages.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			Localización origen de la notificación
+			<xsd:element name="Origin" type="Site" minOccurs="0"
+				maxOccurs="1" />
+			Localización destino de la notificación
+			<xsd:element name="Destination" type="Site" minOccurs="0"
+				maxOccurs="1" />
+		</xsd:sequence>
+		Cadena incluida en la notificación
+		<xsd:attribute name="Brand" type="BrandType" use="required" />
+		Fecha de generación del mensaje formato UTC
+		<xsd:attribute name="GenerationDate" type="xsd:dateTime"
+			use="required" />
+		Id unico del mensaje
+		<xsd:attribute name="MessageId" type="Guid" use="required" />
+		Versión del mensaje
+		<xsd:attribute name="Version" type="Version" use="required" />
+		Identificador de la aplicacion que genera el mensaje
+		<xsd:attribute name="AppId" type="xsd:string" use="optional" />
+		Versión de la aplicacion que genera el mensaje
+		<xsd:attribute name="AppVersion" type="xsd:string"
+			use="optional" />
+	</xsd:complexType>
+
+
+	INICIO TIPOS AÑADIDOS POR CONSIGNA
+	<xsd:element name="ItemsRfid">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded" minOccurs="1">
+				<xsd:element name="ItemRfid">
+					<xsd:complexType>
+						<xsd:sequence maxOccurs="1" minOccurs="1">
+							<xsd:element name="RfidTag" type="RfidTag" />
+							<xsd:element name="RfidSerialNumber"
+								type="RfidSerialNumber" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="CommunicationId">
+		<xsd:restriction base="xsd:unsignedLong">
+			<xsd:minInclusive value="0"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999999999999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IncomeFromStoreToConsignaId">
+		<xsd:restriction base="xsd:unsignedLong" />
+	</xsd:simpleType>
+	<xsd:simpleType name="PackageNumberStore">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="0000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Comunication">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Sequence">
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="0000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="9999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType> 
+	-->
+
+<!-- Tipo que representa un SKU sin Uxl, definido específicamente para mantener la compatibilidad con consigna -->
+
+<!-- 	<xsd:complexType name="SKU_WITHOUT_UxL">
+		<xsd:sequence>
+			<xsd:element name="ProductType" type="ProductType" />
+			<xsd:element name="Model" type="ModelType" />
+			<xsd:element name="Quality" type="QualityType" />
+			<xsd:element name="Color" type="ColorType" />
+			<xsd:element name="Size" type="SizeType" />
+			<xsd:element name="EM" nillable="true" type="EM" />
+			<xsd:element name="Warehouse" nillable="true"
+				type="WarehouseType" />
+			<xsd:element name="Season" nillable="true" type="SeasonType" />
+			<xsd:element name="Year" nillable="true" type="YearType" />
+		</xsd:sequence>
+	</xsd:complexType> -->	
+
+
+	<xsd:simpleType name="Family">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador de la familia de un artículo.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="SubFamily">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador de la subfamilia de un artículo.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="40"></xsd:maxLength>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+    <xsd:complexType name="CountryType">
+    	<xsd:sequence>
+    		<xsd:element name="countryID" type="CountryIDType" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="countryDesc" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="CountryIDType">
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999"></xsd:maxInclusive>
+		</xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:complexType name="ExchangeRate">
+    	<xsd:sequence>
+    		<xsd:element name="countryID" type="CountryIDType" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="countryExRate" type="CountryExRateType" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>    
+    </xsd:complexType>
+    
+      
+
+    <xsd:simpleType name="CountryExRateType">
+    	<xsd:restriction base="xsd:unsignedLong">
+    		<xsd:minInclusive value="0"></xsd:minInclusive>
+    		<xsd:maxInclusive value="999999"></xsd:maxInclusive>
+    	</xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="MCCType">
+		<xsd:sequence>
+			<xsd:element name="model" type="ModelType" maxOccurs="1"
+				minOccurs="0">
+			</xsd:element>
+			<xsd:element name="quality" type="QualityType" maxOccurs="1"
+				minOccurs="0">
+			</xsd:element>
+			<xsd:element name="colour" type="ColorType" maxOccurs="1"
+				minOccurs="0">
+			</xsd:element>
+		</xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:complexType name="StockRFIDType">
+    	<xsd:sequence>
+    		<xsd:element name="stockRfid" type="xsd:int" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="stockAdm" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="stockConsigna" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="stockActivo" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    		<xsd:element name="stockPasivo" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="SeasonType">
+    	<xsd:restriction base="xsd:string">
+    		<xsd:enumeration value="TEMPORADA"></xsd:enumeration>
+    		<xsd:enumeration value="SALDO"></xsd:enumeration>
+    	</xsd:restriction>
+    </xsd:simpleType>
+
+
+    <xsd:simpleType name="IdCadenaType">
+    	<xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="desCadenaType">
+    	<xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="dateString">
+        <xsd:annotation>
+        	<xsd:documentation>Tipo para fechas. Formato: YYYY-MM-DD</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string"></xsd:restriction>
+    </xsd:simpleType>
+    
+     <xsd:simpleType name="AmountType">
+    	<xsd:restriction base="xsd:double"></xsd:restriction>
+    </xsd:simpleType>
+    
+      <xsd:simpleType name="CurrencyType">
+    	<xsd:restriction base="xsd:unsignedInt"></xsd:restriction>
+    </xsd:simpleType>
+
+
+
+      <xsd:complexType name="ArticleMCType">
+      	<xsd:complexContent>
+      		<xsd:extension base="CampaignType">
+      			<xsd:sequence>
+      				<xsd:element name="Model" type="ModelType" maxOccurs="1" minOccurs="1">
+      				</xsd:element>
+      				<xsd:element name="Quality"
+      					type="QualityType" maxOccurs="1" minOccurs="1">
+      				</xsd:element>
+      			</xsd:sequence>
+      		</xsd:extension>
+      	</xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArticleMCCType">
+      	<xsd:complexContent>
+      		<xsd:extension base="ArticleMCType">
+      			<xsd:sequence>
+      				<xsd:element name="Colour"
+      					type="ColorType" maxOccurs="1" minOccurs="1">
+      				</xsd:element>
+      			</xsd:sequence>
+      		</xsd:extension>
+      	</xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArticleMCCTType">
+      	<xsd:complexContent>
+      		<xsd:extension base="ArticleMCCType">
+      			<xsd:sequence>
+      				<xsd:element name="size" type="SizeType" maxOccurs="1" minOccurs="1">
+      				</xsd:element>
+      			</xsd:sequence>
+      		</xsd:extension>
+      	</xsd:complexContent>
+      </xsd:complexType>
+
+      <xsd:simpleType name="CentreType">
+      	<xsd:restriction base="xsd:int"></xsd:restriction>
+      </xsd:simpleType>
+	  
+	<xsd:complexType name="PaginationType">
+		<xsd:sequence>
+			<xsd:element name="offset" type="xsd:int" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="count" type="xsd:int" maxOccurs="1"
+				minOccurs="1">
+			</xsd:element>
+			<xsd:element name="order" type="OrderType" maxOccurs="1" minOccurs="1" >
+			</xsd:element>
+		</xsd:sequence>   
+    </xsd:complexType>
+     
+    <xsd:complexType name="HeaderType">
+            <xsd:sequence>
+                <xsd:element name="quantity" type="xsd:int" maxOccurs="1" minOccurs="1"></xsd:element>
+            </xsd:sequence>
+    </xsd:complexType>
+	  
+	<xsd:simpleType name="OperationTipType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Tipo de operacion.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="00"></xsd:minInclusive>
+			<xsd:maxInclusive value="99"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="OperationNumberType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Numero de operacion.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="RetailStoreIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador de la tienda.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedInt">
+			<xsd:minInclusive value="000000"></xsd:minInclusive>
+			<xsd:maxInclusive value="999999"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="WorksStationIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identificador de la caja.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:unsignedShort">
+			<xsd:minInclusive value="00"></xsd:minInclusive>
+			<xsd:maxInclusive value="99"></xsd:maxInclusive>
+		</xsd:restriction>
+	</xsd:simpleType>
+	  
+</xsd:schema>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.inditex.com/xsd/PTRSTRServicioAccesoTickets_xsd_v1" targetNamespace="http://www.inditex.com/xsd/PTRSTRServicioAccesoTickets_xsd_v1" 
+	elementFormDefault="qualified" xmlns:pref="http://www.inditex.com/xsd/tiposEntidadesPTR_v1" xmlns:Q1="http://www.inditex.com/xsd/PTRSTRServicioAccesoTickets_xsd_v1">
+   
+	<xsd:import schemaLocation="tiposEntidadesPTR_v1_0_0.xsd"
+		namespace="http://www.inditex.com/xsd/tiposEntidadesPTR_v1"></xsd:import>
+	<xsd:annotation>
+		<xsd:documentation>Historificacion GlobalStore services Datos definition
+		
+Version 1.0.0 12-09/2017
+Initial version
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="FindTicketsHiposRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="fechaInicio" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="fechaFin" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="tipoOperacion" type="pref:OperationTipType" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="numeroPeticion" type="xsd:int" maxOccurs="1" minOccurs="1"></xsd:element>	
+				<xsd:element name="tienda" type="pref:RetailStoreIdType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
+				<xsd:element name="caja" type="pref:WorksStationIdType" maxOccurs="1" minOccurs="0"></xsd:element>
+			</xsd:sequence>
+    	</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="GetTicketHiposRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="fechaInicio" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="fechaFin" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="tipoOperacion" type="pref:OperationTipType" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="numeroOperacion" type="pref:OperationNumberType" maxOccurs="1" minOccurs="0"></xsd:element>
+				<xsd:element name="tienda" type="pref:RetailStoreIdType" maxOccurs="1" minOccurs="1"></xsd:element>
+				<xsd:element name="caja" type="pref:WorksStationIdType" maxOccurs="1" minOccurs="1"></xsd:element>
+			</xsd:sequence>
+    	</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="TicketHipos">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="contenidoTicket" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+			</xsd:sequence>
+    	</xsd:complexType>
+	</xsd:element>
+    
+</xsd:schema>
