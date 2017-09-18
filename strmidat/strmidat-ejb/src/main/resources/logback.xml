@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="logback.xsd">
+    <if condition='p("ptr.env").equals("DES")'>
+        <then>
+            <property name="LOG_DIR" value="/u01/app/des_oracle/product/wls12.1.3.0/logs/mw_ptr_wls_domain02/application/OFDASTRMIDAT/" />
+        </then>
+        <else>
+            <property name="LOG_DIR" value="/u01/app/oracle/product/wls12.1.3.0/logs/mw_ptr_wls_domain02/application/OFDASTRMIDAT/" />
+        </else>
+    </if>
+
+    <property name="ARCHIVE" value="OFDASTRMIDAT" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{dd/MM/yyyy-HH:mm:ss.SSS} [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}${ARCHIVE}-${weblogic.Name}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_DIR}${ARCHIVE}-${weblogic.Name}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 10MB, keep 30 days worth of history, but at most 80GB -->
+            <maxFileSize>20MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>40GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date{dd/MM/yyyy-HH:mm:ss.SSS} [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- <appender name="GRAYLOG" class="com.github.pukkaone.gelf.logback.GelfAppender"> -->
+    <!-- <graylogHost>${graylog.server}</graylogHost> -->
+    <!-- <additionalField>stream_filter=${claveProyectoJiraReferencia}</additionalField> -->
+    <!-- <additionalField>ref_project_name=${nombreProyectoJiraReferencia}</additionalField> -->
+    <!-- <additionalField>project_key=${claveProyectoJira}</additionalField> -->
+    <!-- <additionalField>project_name=${nombreProyectoJira}</additionalField> -->
+    <!-- <additionalField>area=${area}</additionalField> -->
+    <!-- </appender> -->
+
+    <if condition='p("ptr.env").equals("PRO")'>
+        <then>
+            <root level="WARN">
+                <!-- <appender-ref ref="CONSOLE" /> -->
+                <appender-ref ref="FILE" />
+                <!-- <appender-ref ref="GRAYLOG" /> -->
+            </root>
+        </then>
+        <else>
+            <if condition='p("ptr.env").equals("PRE")'>
+                <then>
+                    <root level="INFO">
+                        <!-- <appender-ref ref="CONSOLE" /> -->
+                        <appender-ref ref="FILE" />
+                        <!-- <appender-ref ref="GRAYLOG" /> -->
+                    </root>
+                </then>
+                <else>
+                    <root level="DEBUG">
+                        <appender-ref ref="CONSOLE" />
+                        <appender-ref ref="FILE" />
+                        <!-- <appender-ref ref="GRAYLOG" /> -->
+                    </root>
+                </else>
+            </if>
+        </else>
+    </if>
+</configuration>
