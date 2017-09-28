@@ -13,9 +13,16 @@ Initial version
 		</xsd:documentation>
 	</xsd:annotation>
 
-	<xsd:element name="FindTicketsHiposRequest">
+	<xsd:element name="FindTicketsHiPOSRequest">
     	<xsd:complexType>
     		<xsd:sequence>
+    			<xsd:element name="findTicketsHiPOSRequest" type="FindTicketsHiPOSRequestType" maxOccurs="1" minOccurs="1"></xsd:element>
+			</xsd:sequence>
+    	</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:complexType name="FindTicketsHiPOSRequestType">
+    	<xsd:sequence>
     			<xsd:element name="fechaInicio" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="fechaFin" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="tipoOperacion" type="pref:OperationTipType" maxOccurs="1" minOccurs="1"></xsd:element>
@@ -23,12 +30,18 @@ Initial version
 				<xsd:element name="tienda" type="pref:RetailStoreIdType" maxOccurs="unbounded" minOccurs="1"></xsd:element>
 				<xsd:element name="caja" type="pref:WorksStationIdType" maxOccurs="1" minOccurs="0"></xsd:element>
 			</xsd:sequence>
+    </xsd:complexType>
+	
+	<xsd:element name="GetTicketHiPOSRequest">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element name="getTicketHiPOSRequest" type="GetTicketHiPOSRequestType" maxOccurs="1" minOccurs="1"></xsd:element>
+			</xsd:sequence>
     	</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="GetTicketHiposRequest">
-    	<xsd:complexType>
-    		<xsd:sequence>
+		<xsd:complexType name="GetTicketHiPOSRequestType">
+    	<xsd:sequence>
     			<xsd:element name="fechaInicio" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="fechaFin" type="pref:dateString" maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="tipoOperacion" type="pref:OperationTipType" maxOccurs="1" minOccurs="1"></xsd:element>
@@ -36,15 +49,20 @@ Initial version
 				<xsd:element name="tienda" type="pref:RetailStoreIdType" maxOccurs="1" minOccurs="1"></xsd:element>
 				<xsd:element name="caja" type="pref:WorksStationIdType" maxOccurs="1" minOccurs="1"></xsd:element>
 			</xsd:sequence>
-    	</xsd:complexType>
-	</xsd:element>
-	
-	<xsd:element name="TicketHipos">
+    </xsd:complexType>
+    
+    <xsd:element name="GetTicketHiPOSResponse">
     	<xsd:complexType>
     		<xsd:sequence>
-    			<xsd:element name="contenidoTicket" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+    			<xsd:element name="getTicketHiPOSResponse" type="GetTicketHiPOSResponseType" maxOccurs="1" minOccurs="1"></xsd:element>
 			</xsd:sequence>
     	</xsd:complexType>
 	</xsd:element>
+	
+    <xsd:complexType name="GetTicketHiPOSResponseType">
+    	<xsd:sequence>
+    		<xsd:element name="contenidoTicket" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+		</xsd:sequence>
+    </xsd:complexType>
     
 </xsd:schema>
